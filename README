@@ -1,0 +1,334 @@
+README
+
+The 'dnaseq' package mirrors the application configurations used by the ICGC-TCGA PanCancer project (https://github.com/ICGC-TCGA-PanCancer/PCAP-core), an open-source pipeline of simple-to-execute wrappers provided to the scientific community in an effort to achieve consensus on a standard NGS DNA-Seq analysis pipeline.
+
+Although the PanCancer pipeline's aligner application has been already designated (BWA), the variant caller(s) for the PanCancer pipeline have yet to be defined. This package uses FreeBayes for variant calling. Another variant caller can easily be substituted for FreeBayes by simple replacement of the FreeBayes.work file with a different file, e.g, Mutect.work.
+
+The 'dnaseq' package handles two data sources by default - the Short Read Archive (SRA) and The Cancer Genome Atlas (TCGA). Two pipelines are provided for each of the data sources:
+
+    Variant - generates variant calls from the downloaded BAM file
+
+    AlignVariant - realigns the downloaded BAM file using BWA before generating variant calls
+
+The provided example data sets are for demonstration use only. To run your own analysis, replace the contents of the sample *.tsv files with sample IDs and information specific to your experiment.
+
+Follow the 'INSTALL DEPENDENCIES' and 'INSTALL dnaseq' sections below to install the required software dependencies and then install the 'dnaseq' package.
+
+Once 'dnaseq' is installed, follow the 'RUN PIPELINES' instructions to run the pipelines on the command line.
+
+To run the analysis on individual sample files or run steps of a workflow independently, consult the 'ADVANCED' section.
+
+Executables
+===========
+
+Use perldoc to view documentation for the executables included in this distribution, e.g.:
+
+export VERSION=0.0.1
+perldoc /a/apps/$VERSION/bin/aspera
+
+
+Installation
+============
+
+The installation commands below are for Ubuntu Linux and other flavors that use the 'apt-get' package manager. For Centos installations, use the corresponding 'yum install' command in place of 'apt-get install'. Other flavors of Linux are not supported but should the package should work provided the required dependencies are installed.
+
+
+INSTALL DEPENDENCIES
+====================
+
+1. Install Perl version 5.10+ (may also work on other versions):
+
+    apt-get install perl #### NB: Perl is pre-installed on Ubuntu
+
+
+2. Install Agua
+
+
+
+    Variant - generates variant calls from the downloaded BAM file
+
+    AlignVariant - realigns the downloaded BAM file using BWA before generating variant calls
+
+
+    sudo su
+
+    apt-get install -y git
+
+    cd /
+
+    git clone https://github.com/agua/agua a
+
+    /a/bin/install/install
+
+    /a/bin/install/configure  #### Requires user to input manually at the prompts
+
+    /a/bin/install/deploy --mode biorepo
+
+
+3. Install dependencies for Perl modules
+
+    apt-get install -y libgd2-xpm-dev 
+    /a/bin/install/deploy --mode install --package samtools --version 0.1.18
+
+
+4. Install Perl modules
+
+    cpanm install install File::Which
+
+    cpanm install Bio::Root::Version --force
+
+    cpanm install Bio::DB::Sam
+
+    cpanm install Data::UUID
+
+    cpanm install Devel::Cover
+
+    cpanm install GD
+
+    cpanm install Math::Gradient
+
+    cpanm install Pod::Coverage
+
+    cpanm install Proc::ProcessTable
+
+
+5. Install package dependencies
+(Note: Add option '--log 4' for verbose output)
+
+sudo su
+/a/bin/install/deploy --mode biorepo
+/a/bin/install/deploy --mode install --package gt --version 0.0.8
+/a/bin/install/deploy --mode install --package bwa --version 0.7.7
+/a/bin/install/deploy --mode install --package pcap --version v1.0.4
+/a/bin/install/deploy --mode install --package sra --version 2.3.5-2
+/a/bin/install/deploy --mode install --package aspera --version 3.3.3.81344
+
+
+6. Install GeneTorrent (3.8.4+)
+
+See instructions here: https://cghub.ucsc.edu/software/downloads.html
+
+
+INSTALL dnaseq
+==============
+
+Automated installation
+----------------------
+All workflows and sample data files for the 'dnaseq' package will be automatically loaded into the Agua database.
+
+/a/bin/install/deploy --mode install --package dnaseq --version max
+
+
+Manual installation
+-------------------
+Use these step-by-step commands to install the 'dnaseq' package and load the workflow configurations and sample data into the Agua database.
+
+1. Download dnaseq package
+
+export VERSION=0.0.1
+mkdir /a/apps/dnaseq
+cd /a/apps/dnaseq
+git clone https://bitbucket.org/aguadev/dnaseq.git $VERSION
+
+
+2. Load workflow configurations
+
+VariantSra PROJECT - SRA data, variant calling
+
+export VERSION=0.0.1
+cd /a/apps/dnaseq/$VERSION/conf/sra/variant
+/a/bin/cli/flow deleteProject --project VariantSra --username admin
+/a/bin/cli/flow addProject --project VariantSra --username admin
+/a/bin/cli/flow addWorkflow --project VariantSra --wkfile 1-Aspera.work --username admin
+/a/bin/cli/flow addWorkflow --project VariantSra --wkfile 2-SraToBam.work --username admin
+/a/bin/cli/flow addWorkflow --project VariantSra --wkfile 3-IndexBam.work --username admin
+/a/bin/cli/flow addWorkflow --project VariantSra --wkfile 4-FreeBayes.work --username admin
+
+AlignVariantSra PROJECT - SRA data, alignment and variant calling
+
+cd /a/apps/dnaseq/$VERSION/conf/sra/alignvariant
+/a/bin/cli/flow deleteProject --project AlignVariantSra --username admin
+/a/bin/cli/flow addProject --project AlignVariantSra --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 1-Aspera.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 2-SraToBam.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 3-LaneFastq.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 4-Bwa.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 5-Merge.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 6-IndexBam.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantSra --wkfile 7-FreeBayes.work --username admin
+
+VariantTcga PROJECT  - TCGA data, variant calling
+
+cd /a/apps/dnaseq/$VERSION/conf/tcga/variant
+/a/bin/cli/flow deleteProject --project VariantTcga --username admin
+/a/bin/cli/flow addProject --project VariantTcga --username admin
+/a/bin/cli/flow addWorkflow --project VariantTcga --wkfile 1-Download.work --username admin
+/a/bin/cli/flow addWorkflow --project VariantTcga --wkfile 2-IndexBam.work --username admin
+/a/bin/cli/flow addWorkflow --project VariantTcga --wkfile 3-FreeBayes.work --username admin
+
+AlignVariantTcga PROJECT  - Download TCGA data, alignment and variant calling
+
+cd /a/apps/dnaseq/$VERSION/conf/tcga/alignvariant
+/a/bin/cli/flow deleteProject --project AlignVariantTcga --username admin
+/a/bin/cli/flow addProject --project AlignVariantTcga --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantTcga --wkfile 1-Download.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantTcga --wkfile 2-LaneFastq.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantTcga --wkfile 3-Bwa.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantTcga --wkfile 4-Merge.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantTcga --wkfile 5-IndexBam.work --username admin
+/a/bin/cli/flow addWorkflow --project AlignVariantTcga --wkfile 6-FreeBayes.work --username admin
+
+
+3. Load sample data
+
+The provided data files contain small demo data sets to be downloaded from the SRA and TCGA repositories:
+
+    data/sra/tsv/srasample.tsv
+    data/tcga/tsv/tcgasample.tsv
+
+To use your own data, simply replace the contents of these files with your data entries. You can generate your own data entries using the 'bin/query' executable in the GT Tools module:
+
+    query --querystring "disease_abbr=BRCA&library_strategy=WXS" --outputfile /tmp/brcasample.tsv
+
+To see the list of TCGA disease abbreviations, get the --help information:
+
+    query --help
+
+If you want to generate these files yourself, you should note that the order of fields in the tsv files must correspond to the SQL files which are used to generate the sample tables in the Agua database:
+
+    data/sra/sql/srasample.sql
+    data/tcga/sql/tcgasample.sql
+
+
+Load SRA data
+
+cd /a/apps/dnaseq/$VERSION/conf/sra/load
+/a/bin/cli/flow deleteProject --project LoadSra --username admin
+/a/bin/cli/flow addProject --project LoadSra --username admin
+/a/bin/cli/flow addWorkflow --project LoadSra --wkfile 1-LoadSamples.work --username admin
+/a/bin/cli/flow runWorkflow --project LoadSra --workflow LoadSamples
+
+
+Load TCGA data
+
+cd /a/apps/dnaseq/$VERSION/conf/tcga/load
+/a/bin/cli/flow deleteProject --project LoadTcga --username admin
+/a/bin/cli/flow addProject --project LoadTcga --username admin
+/a/bin/cli/flow addWorkflow --project LoadTcga --wkfile 1-LoadSamples.work --username admin
+/a/bin/cli/flow runWorkflow --project LoadTcga --workflow LoadSamples
+
+
+
+RUN PIPELINES
+=============
+
+Select the run option which best suits your particular computing environment.
+
+
+1. Run using a single command on the local machine
+
+/a/bin/cli/flow runProject --project VariantSra --username admin
+/a/bin/cli/flow runProject --project AlignVariantSra --username admin
+/a/bin/cli/flow runProject --project VariantTcga --username admin
+/a/bin/cli/flow runProject --project AlignVariantTcga --username admin
+
+
+2. Run stepwise on the local machine
+
+VariantSra PROJECT  - Download SRA data, call variants
+
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow Aspera --username admin
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow SraToBam --username admin
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow IndexBam --username admin
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow FreeBayes --username admin
+
+AlignVariantSra PROJECT  - Download SRA data, align and call variants
+
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow Aspera --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow SraToBam --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow LaneFastq --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow Bwa --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow Merge --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow IndexBam --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow FreeBayes --username admin
+
+VariantTcga PROJECT  - Download TCGA data, call variants
+
+/a/bin/cli/flow runWorkflow --workflow Download --username admin
+/a/bin/cli/flow runWorkflow --workflow IndexBam --username admin
+/a/bin/cli/flow runWorkflow --workflow FreeBayes --username admin
+
+AlignVariantTcga PROJECT  - Download TCGA data, align and call variants
+
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow Download --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow LaneFastq --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow Bwa --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow Merge --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow IndexBam --username admin
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow FreeBayes --username admin
+
+
+3. Run using a single command on a Sun Grid Engine (SGE) cluster
+
+/a/bin/cli/flow runProject --project VariantSra --username admin --scheduler sge
+/a/bin/cli/flow runProject --project AlignVariantSra --username admin --scheduler sge
+/a/bin/cli/flow runProject --project VariantTcga --username admin --scheduler sge
+/a/bin/cli/flow runProject --project AlignVariantTcga --username admin --scheduler sge
+
+
+4. Run stepwise on a Sun Grid Engine (SGE) cluster
+
+The 'maxjobs' option values are set specifically for an SGE cluster with 40 available CPUs and relatively high network bandwidth.
+You will probably want to adjust these values to the optimal levels for your particular server resources and available bandwidth.
+
+VariantSra PROJECT  - Download SRA data, call variants
+
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow Aspera --username admin --scheduler sge --maxjobs 16 --log 4
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow SraToBam --username admin --scheduler sge --maxjobs 16 --log 4
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow IndexBam --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow FreeBayes --username admin --scheduler sge --maxjobs 40 --log 4
+
+AlignVariantSra PROJECT  - Download SRA data, align and call variants
+
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow Aspera --username admin --scheduler sge --maxjobs 16 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow SraToBam --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow LaneFastq --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow Bwa --username admin --scheduler sge --maxjobs 5 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow Merge --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow IndexBam --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantSra --workflow FreeBayes --username admin --scheduler sge --maxjobs 40 --log 4
+
+
+VariantTcga PROJECT  - Download TCGA data, call variants
+
+/a/bin/cli/flow runWorkflow --workflow Download --username admin --scheduler sge --maxjobs 16 --log 4
+/a/bin/cli/flow runWorkflow --workflow IndexBam --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --workflow FreeBayes --username admin --scheduler sge --maxjobs 40 --log 4
+
+AlignVariantTcga PROJECT  - Download TCGA data, align and call variants
+
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow Download --username admin --scheduler sge --maxjobs 16 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow LaneFastq --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow Bwa --username admin --scheduler sge --maxjobs 5 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow Merge --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow IndexBam --username admin --scheduler sge --maxjobs 40 --log 4
+/a/bin/cli/flow runWorkflow --project AlignVariantTcga --workflow FreeBayes --username admin --scheduler sge --maxjobs 40 --log 4
+
+
+ADVANCED
+========
+
+# Download a single sample using Aspera
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow Aspera --samplestring "sample:SRR645688" --log 4
+
+# Align a single sample using Bwa
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow Bwa --samplestring "sample:SRR645668" --log 4
+
+# Call variants using FreeBayes
+/a/bin/cli/flow runWorkflow --project VariantSra --workflow FreeBayes --samplestring "sample:SRR645668" --log 4
+
+# Download a single TCGA sample (one or more files)
+/a/bin/cli/flow runWorkflow --project VariantTcga --workflow Download --username admin --log 4 --samplestring "sample:92b70f31-ee3f-4f7e-bd51-0d844eea8a6d|filename:C500.TCGA-K4-A5RI-01A-11D-A289-08.4.bam|filesize:12725010572"
+
+
+#### *** END README ***

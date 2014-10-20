@@ -1,0 +1,30 @@
+---
+apps:
+  -
+    installdir: /agua/apps/cu/0.0.11
+    location: bin/lanefastq
+    name: laneFastq
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --inputfile
+        description: 'Location of input BAM file'
+        param: inputfile
+        paramtype: input
+        value: /data/sra/aspera/<SAMPLE>/<SAMPLE>.bam
+      -
+        argument: --outputdir
+        description: 'Print aligned BAM file to this output directory'
+        param: outputdir
+        paramtype: input
+        value: /data/sra/lanefastq/<SAMPLE>
+    type: converter
+description: 'Split a BAM file into lane/readgroup-specific FASTQ files'
+name: LaneFastq
+notes: 'Uses PanCancer bwa_mem parameters'
+number: '4'
+owner: admin
+project: VariantSra
+username: admin

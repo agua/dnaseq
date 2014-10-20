@@ -1,0 +1,33 @@
+{
+   "project"		:	"VariantSra",
+   "name"   		: 	"LaneFastq",
+   "number" 		: 	4,   
+   "description" 	: 	"Split a BAM file into lane/readgroup-specific FASTQ files",
+   "notes" 			: 	"Uses PanCancer bwa_mem parameters",
+   "apps" 			: 	[
+      {
+         "name" : "laneFastq",
+         "number": 1,
+         "type" : "converter",
+         "package" : "cu",
+         "installdir" : "/agua/apps/dnaseq/0.0.1",
+         "location" : "bin/lanefastq",
+         "description" : "Run biobambam's bamtofastq to split BAM file into lane-specific FASTQ files",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" 			: 	"inputfile",
+               "argument" 		: 	"--inputfile",
+               "description" 	: 	"Location of input BAM file",
+               "value" 			: 	"/data/sra/aspera/<SAMPLE>/<SAMPLE>.bam"
+            },
+            {
+               "param" 			: 	"outputdir",
+               "argument" 		: 	"--outputdir",
+               "description" 	:	"Print aligned BAM file to this output directory",
+               "value" 			: 	"/data/sra/lanefastq/<SAMPLE>"
+            }
+         ]
+      }
+   ]
+}

@@ -1,0 +1,110 @@
+#!/usr/bin/perl -w
+
+=doc
+
+=head2	mutect
+
+PURPOSE
+
+    Call variants by running Mutect on a BAM file
+
+USAGE
+
+./mutect.pl <--uuid String> \
+	<--tumourfile String> \
+	<--outputdir String> \
+	[--normalfile String] \
+	[--version String] \
+	[--intervalfile String] \
+	[--options String]
+
+uuid   		:   UUID of the sample
+tumourfile	: 	Location of tumour sample type BAM file
+normalfile	: 	Location of normal sample type BAM file
+outputdir	:	Directory for output BAM file
+version		:	Version of Mutect
+intervalfile:	Location of intervals file
+options		:	Additional options passed to Mutect
+
+EXAMPLE
+
+Call variants using Mutect
+
+/agua/apps/cu/0.0.11/bin/mutect.pl \
+--tumourfile /data/merge/0cab7a33-7a92-4f6b-85bb-31d2d80bbe6b \
+--outputdir /data/mutect/0cab7a33-7a92-4f6b-85bb-31d2d80bbe6b \
+--uuid 0cab7a33-7a92-4f6b-85bb-31d2d80bbe6b \
+--version 1.1.6
+
+=cut
+
+#### EXTERNAL PACKAGES
+use Data::Dumper;
+use Getopt::Long;
+
+#### INTERNAL PACKAGES
+my $installdir;
+BEGIN {
+	$installdir	=	$ENV{'installdir'} || "/agua";
+    unshift(@INC, "$installdir/lib");
+}
+use FindBin qw($Bin);
+use lib "$Bin/../lib";
+use Conf::Yaml;
+use Mutect;
+
+#### GET OPTIONS
+my $uuid		=	undef;
+my $tumourfile	=	undef;
+my $normalfile	=	undef;
+my $outputdir	=	undef;
+my $version		=	undef;
+my $intervalfile=	undef;
+my $options		=	undef;
+my $reference	=	undef;
+my $cosmic		=	undef;
+my $dbsnp		=	undef;
+
+my $log			=	4;
+my $printlog	=	4;
+
+GetOptions (
+    'uuid=s'     	=> \$uuid,
+    'tumourfile=s'  => \$tumourfile,
+    'normalfile=s'  => \$normalfile,
+    'outputdir=s'   => \$outputdir,
+
+    'version=s'   	=> \$version,
+    'intervalfile=s'=> \$intervalfile,
+    'options=s'   	=> \$options,
+    'reference=s'   => \$reference,
+    'cosmic=s'   	=> \$cosmic,
+    'dbsnp=s'   	=> \$dbsnp,
+
+    'log=i'     	=> \$log,
+    'printlog=i'    => \$printlog,
+    'help'          => \$help
+) or die "No options specified. Try '--help'\n";
+usage() if defined $help;
+
+#### SET CONF
+my $configfile	=	"$installdir/conf/config.yaml";
+my $logfile		=	"/tmp/bwa.$$.log";
+my $conf = Conf::Yaml->new(
+    memory      =>  0,
+    inputfile   =>  $configfile,
+    backup      =>  1,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile
+);
+
+my $object	=	Mutect->new({
+	conf		=>	$conf,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile	
+});
+
+$object->callVariants($uuid, $tumourfile, $normalfile, $outputdir, $version, $intervalfile, $options, $reference, $cosmic, $dbsnp);
+

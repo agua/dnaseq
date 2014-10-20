@@ -1,0 +1,29 @@
+---
+apps:
+  -
+    installdir: /agua/apps/samtools/0.1.18
+    location: samtools
+    name: indexbam
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        description: 'Subcommand to index BAM file'
+        ordinal: '1'
+        param: index
+        paramtype: input
+        value: index
+      -
+        description: 'Location of input BAM file'
+        ordinal: '2'
+        param: bamfile
+        paramtype: input
+        value: /data/sra/merge/<SAMPLE>/<SAMPLE>.bam
+    type: indexer
+description: 'Index BAM file using samtools'
+name: IndexBam
+number: '5'
+owner: admin
+project: AlignVariantSra
+username: admin

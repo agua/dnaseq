@@ -1,0 +1,116 @@
+#!/usr/bin/perl -w
+
+=doc
+
+=head2	merge
+
+PURPOSE
+
+    Merge multiple output BAM files into a single BAM file
+
+USAGE
+
+./merge.pl <--uuid String> \
+	<--inputdir String> \
+	<--outputdir String> \
+	<--filename String>
+
+inputdir	: 	Directory containing input BAM files
+outputdir	:	Directory for output BAM file
+outputdir	:	Directory for intermediate files
+filename  	:	Name of output file
+version		:	Version of PCAP-core containing biobambam's bammerge
+
+EXAMPLE
+
+Merge the BAM files with biobambam's bammerge
+
+./merge.pl \
+--filename C500.TCGA-BT-A0S7-10A-01D-A10S-08.5.bam \
+--inputdir /data/bwa/eaa56631-c802-47ff-8118-3ed40d10302b/ \
+--outputdir /data/merge
+
+NOTES
+
+bammerge USAGE:
+
+This is biobambam version 0.0.142.
+biobambam is distributed under version 3 of the GNU General Public License.
+
+Key=Value pairs:
+
+I=<[filename]>           : input file, can be set multiple times
+SO=<[coordinate]>]       : sort order (coordinate or queryname)
+level=<[-1]>             : compression settings for output bam file (0=uncompressed,1=fast,9=best,-1=zlib default)
+verbose=<[1]>            : print progress report
+md5=<[0]>                : create md5 check sum (default: 0)
+md5filename=<filename>   : file name for md5 check sum (default: extend output file name)
+index=<[0]>              : create BAM index (default: 0)
+indexfilename=<filename> : file name for BAM index file (default: extend output file name)
+tmpfile=<filename>       : prefix for temporary files, default: create files in current directory
+
+
+=cut
+
+#### EXTERNAL PACKAGES
+use Data::Dumper;
+use Getopt::Long;
+
+#### INTERNAL PACKAGES
+my $installdir;
+BEGIN {
+	$installdir	=	$ENV{'installdir'} || "/agua";
+    unshift(@INC, "$installdir/lib");
+}
+use FindBin qw($Bin);
+use lib "$Bin/../lib";
+
+#### INTERNAL PACKAGES
+use Conf::Yaml;
+use Merge;
+
+#### GET OPTIONS
+my $uuid		=	undef;
+my $inputdir	=	undef;
+my $outputdir	=	undef;
+my $filename	=	undef;
+my $workdir		=	"/mnt";
+my $version		=	undef;
+my $log			=	2;
+my $printlog	=	4;
+
+GetOptions (
+    'uuid=s'     	=> \$uuid,
+    'inputdir=s'   	=> \$inputdir,
+    'outputdir=s'	=> \$outputdir,
+    'filename=s'	=> \$filename,
+    'workdir=s'   	=> \$workdir,
+    'version=s'   	=> \$version,
+
+    'log=i'     	=> \$log,
+    'printlog=i'    => \$printlog,
+    'help'          => \$help
+) or die "No options specified. Try '--help'\n";
+usage() if defined $help;
+
+#### SET CONF
+my $configfile	=	"$installdir/conf/config.yaml";
+my $logfile		=	"/tmp/merge.$$.log";
+my $conf = Conf::Yaml->new(
+    memory      =>  0,
+    inputfile   =>  $configfile,
+    backup      =>  1,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile
+);
+
+my $object	=	Merge->new({
+	conf		=>	$conf,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile	
+});
+
+$object->merge($uuid, $inputdir, $outputdir, $filename, $workdir, $version);
+

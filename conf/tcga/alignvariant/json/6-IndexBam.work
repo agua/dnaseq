@@ -1,0 +1,33 @@
+{
+   "project"		:	"AlignVariantSra",
+   "name"   		: 	"IndexBam",
+   "number" 		: 	6,   
+   "description" 	: 	"Index BAM file using samtools",
+   "apps" 			: 	[
+      {
+         "name" : "indexbam",
+         "number": 1,
+         "type" : "indexer",
+         "package" : "cu",
+         "installdir" : "/agua/apps/samtools/0.1.18",
+         "location" : "samtools",
+         "description" : "Run 'samtools index' to index a single BAM file",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "ordinal" 	: 	1,
+               "param" 		: 	"index",
+               "value" 		: 	"index",
+               "description": 	"Subcommand to index BAM file"
+            }
+			,
+            {
+               "ordinal" 	: 	2,
+               "param" 		: 	"bamfile",
+               "description": 	"Location of input BAM file",
+               "value" 		: 	"/data/sra/merge/<SAMPLE>/<SAMPLE>.bam"
+            }
+         ]
+      }
+   ]
+}

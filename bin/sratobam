@@ -1,0 +1,87 @@
+#!/usr/bin/perl -w
+
+=doc
+
+=head2	sratobam
+
+PURPOSE
+
+    Convert an SRA file into a BAM file using SRA Tools and samtools
+
+USAGE
+
+./sratobam.pl <--inputfile String> \
+	<--outputfile String> \
+	<--reference String>
+
+inputfile	: 	Directory containing input lane BAM files
+outputfile	:	Print aligned BAM file to this directory
+reference	:	Stub location of FASTA reference file (e.g., /data/genome.fa)
+
+EXAMPLE
+
+./sratobam.pl \
+--inputfile /data/sra/SRR645386/SRR645386.sra \
+--outputfile /data/bam/SRR645386/SRR645386.sam \
+--reference /data/reference/genome.fa
+
+=cut
+
+#### EXTERNAL PACKAGES
+use Data::Dumper;
+use Getopt::Long;
+
+#### INTERNAL PACKAGES
+my $installdir;
+BEGIN {
+	$installdir	=	$ENV{'installdir'} || "/agua";
+    unshift(@INC, "$installdir/lib");
+}
+use FindBin qw($Bin);
+use lib "$Bin/../lib";
+
+#### INTERNAL PACKAGES
+use Conf::Yaml;
+use SraToBam;
+
+#### GET OPTIONS
+my $inputfile	=	undef;
+my $outputfile	=	undef;
+my $reference	=	undef;
+
+my $log			=	2;
+my $printlog	=	4;
+
+GetOptions (
+    'inputfile=s'    => \$inputfile,
+    'outputfile=s'   => \$outputfile,
+    'reference=s'   => \$reference,
+
+    'log=i'     	=> \$log,
+    'printlog=i'    => \$printlog,
+    'help'          => \$help
+) or die "No options specified. Try '--help'\n";
+usage() if defined $help;
+
+#### SET CONF
+my $configfile	=	"$installdir/conf/config.yaml";
+my $logfile		=	"/tmp/bwa.$$.log";
+my $conf = Conf::Yaml->new(
+    memory      =>  0,
+    inputfile   =>  $configfile,
+    backup      =>  1,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile
+);
+
+my $object	=	SraToBam->new({
+	conf		=>	$conf,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile	
+});
+
+$object->convert($inputfile, $outputfile, $reference);
+
+

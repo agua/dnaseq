@@ -1,0 +1,54 @@
+{
+   "project"		:	"AlignVariantSra",
+   "name"   		: 	"Aspera",
+   "number" 		: 	1,
+   "description" 	: 	"Use Aspera to download files from SRA",
+   "apps" 			:	[
+      {
+         "name" : "download",
+         "number": 1,
+         "type" : "downloader",
+         "package" : "cu",
+         "location" : "bin/aspera.pl",
+         "installdir" : "/agua/apps/dnaseq/0.0.1",
+         "version" : "0.0.1",
+         "description" : "Run gtdownload",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "ordinal" 		: 	1,
+               "param" 			: 	"outputdir",
+               "argument" 		: 	"--outputdir",
+               "description" 	: 	"Path to the base directory containing input file subfolders",
+			   "value" 			: 	"/data/sra/aspera/<SAMPLE>"
+            },
+            {
+               "ordinal" 		: 	2,
+               "param" 			: 	"outputfile",
+               "argument" 		: 	"--outputfile",
+               "description" 	: 	"Unique identifier for the sample",
+               "discretion" 	: 	"required",
+			   "value" 			: 	"<SAMPLE>.sra"
+            },
+            {
+               "ordinal" 		: 	3,
+               "param" 			: 	"keyfile",
+               "argument" 		: 	"--keyfile",
+               "description" 	: 	"Path to the key file for access to CGHub",
+               "discretion" 	: 	"required",
+			   "value" 			: 	"/agua/apps/aspera/3.3.3.81344/etc/asperaweb_id_dsa.openssh"
+            }
+			,
+            {
+               "ordinal" 		: 	4,
+               "param" 			: 	"url",
+               "argument" 		: 	"--url",
+               "description" 	: 	"Size in bytes of the target download file",
+               "valuetype" 		: 	"Integer",
+			   "value" 			: 	"anonftp@ftp-private.ncbi.nlm.nih.gov:sra/sra-instant/reads/ByRun/sra/SRR/SRR645/<SAMPLE>/<SAMPLE>.sra"
+            }
+         ]
+      }
+   ]
+}
+

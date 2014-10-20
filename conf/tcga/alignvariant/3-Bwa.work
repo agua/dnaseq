@@ -1,0 +1,67 @@
+---
+apps:
+  -
+    installdir: /agua/apps/dnaseq/0.0.1
+    location: bin/bwa
+    name: bwa
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --batchsize
+        description: 'Number of *.fq.gz files to be processed at one time'
+        param: batchsize
+        paramtype: input
+        value: '20'
+        valuetype: Integer
+      -
+        argument: --filename
+        description: 'Name of output *.bam file'
+        param: filename
+        paramtype: input
+        value: <SAMPLE>.bam
+      -
+        argument: --inputdir
+        description: 'Location of directory containing input *.bam files'
+        param: inputdir
+        paramtype: input
+        value: /data/sra/lanefastq/<SAMPLE>
+      -
+        argument: --inputsuffix
+        description: 'Input file suffix (e.g., .fastq.gz, .fq.gz, or .bam)'
+        param: inputsuffix
+        paramtype: input
+        value: .fq.gz
+      -
+        argument: --outputdir
+        description: 'Print output *.bam file to this output directory'
+        param: outputdir
+        paramtype: input
+        value: /data/sra/bwa/<SAMPLE>
+      -
+        argument: --reference
+        description: 'Stubbed location of bwa genome index files (e.g., /reference/genome.fa.gz)'
+        param: reference
+        paramtype: input
+        value: /data/reference/genome.fa.gz
+      -
+        argument: --threads
+        description: 'Number of CPUs to be used'
+        param: threads
+        paramtype: input
+        value: '8'
+      -
+        argument: --version
+        description: 'Version of PanCancer package'
+        param: version
+        paramtype: input
+        value: v1.0.4
+    type: aligner
+description: 'Alignment of BAM files'
+name: Bwa
+notes: 'PanCancer bwa_mem parameters'
+number: '3'
+owner: admin
+project: AlignVariantSra
+username: admin

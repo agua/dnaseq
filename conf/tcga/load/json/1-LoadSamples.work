@@ -1,0 +1,204 @@
+{
+   "project": "LoadTCGA",
+   "name"   : "LoadSamples",
+   "number" : 1,
+   "description" : "Load a list of sample ids",
+   "notes" : "List of CGHub bladder cancer tumor and normal sample UUIDs",
+   "apps" : [
+      {"name" : "loadSamples",
+         "number": 1,
+         "type" : "loader",
+         "package" : "agua",
+         "installdir" : "/agua",
+         "location" : "bin/sample/loadSamples.pl",
+         "version" : "0.0.1",
+         "description" : "Load a list of sample ids",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" 			: 	"username",
+               "argument" 		: 	"--username",
+               "category" 		: 	"username",
+               "description" 	: 	"Name of account owner",
+	           "value" 			: 	"admin"
+            },
+            {
+               "param" 			: 	"project",
+               "argument" 		: 	"--project",
+               "category" 		: 	"project",
+               "description" 	: 	"Name of project using the samples",
+	           "value" 			: 	"RunTCGA"
+            },
+            {
+               "param" 			: 	"table",
+               "argument" 		: 	"--table",
+               "category" 		: 	"table",
+               "description" 	: 	"Name of the sample table",
+	           "value" 			: 	"tcgasample"
+            },
+            {
+               "param" : "sqlfile",
+               "argument" : "--sqlfile",
+               "category" : "sqlfile",
+               "description" : "Location of sqlfile containing 'create table' command",
+	           "value" : "/agua/apps/dnaseq/<VERSION>/data/tcga/sql/tcgasample.sql"
+            },
+            {
+               "param" : "tsvfile",
+               "argument" : "--tsvfile",
+               "category" : "tsvfile",
+               "description" : "Location of tsvfile containing sample data",
+	           "value" : "/agua/apps/dnaseq/<VERSION>/data/tcga/tsv/tcgasample.tsv"
+            }
+         ]
+      }
+	  ,
+      {"name" : "loadCluster",
+         "number": 2,
+         "type" : "loader",
+         "package" : "agua",
+         "installdir" : "/agua",
+         "version" : "0.0.1",
+         "location" : "bin/scripts/loadTable.pl",
+         "description" : "Load a TSV file into a table",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "tsvfile",
+               "appnumber" : 1,
+               "argument" : "--tsvfile",
+               "category" : "file",
+               "description" : "Location of TSV file containing required fields",
+	           "value" : "/agua/apps/dnaseq/<VERSION>/data/tcga/tsv/cluster.tsv"
+            },
+            {
+               "param" : "table",
+               "appnumber" : 1,
+               "argument" : "--table",
+               "category" : "table",
+               "description" : "Name of table",
+	           "value" : "cluster"
+            },
+            {
+               "param" : "db",
+               "appnumber" : 1,
+               "argument" : "--db",
+               "category" : "database",
+               "description" : "Name of database",
+	           "value" : "agua"
+            }
+         ]
+      }
+	  ,
+      {"name" : "loadInstanceType",
+         "number": 3,
+         "type" : "loader",
+         "package" : "agua",
+         "installdir" : "/agua",
+         "version" : "0.0.1",
+         "location" : "bin/scripts/loadTable.pl",
+         "description" : "Load a TSV file into a table",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "tsvfile",
+               "appnumber" : 1,
+               "argument" : "--tsvfile",
+               "category" : "file",
+               "description" : "Location of TSV file containing required fields",
+	           "value" : "/agua/apps/dnaseq/<VERSION>/data/tcga/tsv/instancetype.tsv"
+            },
+            {
+               "param" : "table",
+               "appnumber" : 1,
+               "argument" : "--table",
+               "category" : "table",
+               "description" : "Name of table",
+	           "value" : "instancetype"
+            },
+            {
+               "param" : "db",
+               "appnumber" : 1,
+               "argument" : "--db",
+               "category" : "database",
+               "description" : "Name of database",
+	           "value" : "agua"
+            }
+         ]
+      }
+	  ,
+      {"name" : "loadClusterWorkflow",
+         "number": 4,
+         "type" : "loader",
+         "package" : "agua",
+         "installdir" : "/agua",
+         "version" : "0.0.1",
+         "location" : "bin/scripts/loadTable.pl",
+         "description" : "Load a TSV file into a table",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "tsvfile",
+               "appnumber" : 1,
+               "argument" : "--tsvfile",
+               "category" : "file",
+               "description" : "Location of TSV file containing required fields",
+	           "value" : "/agua/apps/dnaseq/<VERSION>/data/tcga/tsv/clusterworkflow.tsv"
+            },
+            {
+               "param" : "table",
+               "appnumber" : 1,
+               "argument" : "--table",
+               "category" : "table",
+               "description" : "Name of table",
+	           "value" : "clusterworkflow"
+            },
+            {
+               "param" : "db",
+               "appnumber" : 1,
+               "argument" : "--db",
+               "category" : "database",
+               "description" : "Name of database",
+	           "value" : "agua"
+            }
+         ]
+      }
+	  ,
+      {"name" : "loadClusterVars",
+         "number": 5,
+         "type" : "loader",
+         "package" : "agua",
+         "installdir" : "/agua",
+         "version" : "0.0.1",
+         "location" : "bin/scripts/loadTable.pl",
+         "description" : "Load a TSV file into a table",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "tsvfile",
+               "appnumber" : 1,
+               "argument" : "--tsvfile",
+               "category" : "file",
+               "description" : "Location of TSV file containing required fields",
+	           "value" : "/agua/apps/dnaseq/<VERSION>/data/tcga/tsv/clustervars.tsv"
+            },
+            {
+               "param" : "table",
+               "appnumber" : 1,
+               "argument" : "--table",
+               "category" : "table",
+               "description" : "Name of table",
+	           "value" : "clustervars"
+            },
+            {
+               "param" : "db",
+               "appnumber" : 1,
+               "argument" : "--db",
+               "category" : "database",
+               "description" : "Name of database",
+	           "value" : "agua"
+            }
+         ]
+      }
+   ]
+}

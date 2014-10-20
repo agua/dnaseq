@@ -1,0 +1,48 @@
+---
+apps:
+  -
+    installdir: /agua/apps/dnaseq/0.0.1
+    location: bin/merge
+    name: merge
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --filename
+        description: 'Unique identifier for the sample'
+        param: filename
+        paramtype: input
+        value: <SAMPLE>.bam
+      -
+        argument: --inputdir
+        description: 'Location of directory containing input BAM files'
+        param: inputdir
+        paramtype: input
+        value: /data/sra/bwa/<SAMPLE>
+      -
+        argument: --outputdir
+        description: 'Print aligned BAM file to this output directory'
+        param: outputdir
+        paramtype: input
+        value: /data/sra/merge/<SAMPLE>
+      -
+        argument: --uuid
+        description: 'Unique identifier for the sample'
+        param: uuid
+        paramtype: input
+        value: <SAMPLE>
+      -
+        argument: --workdir
+        description: 'Unique identifier for the sample'
+        param: workdir
+        paramtype: input
+        value: /mnt
+    type: converter
+description: 'Marge multiple BAM files into a single, sorted BAM file'
+name: Merge
+notes: 'Using PanCancer bwa_mem parameters'
+number: '5'
+owner: admin
+project: AlignVariantSra
+username: admin

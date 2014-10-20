@@ -1,0 +1,56 @@
+---
+apps:
+  -
+    installdir: /agua/apps/dnaseq/0.0.1
+    location: bin/download
+    name: download
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --outputdir
+        description: 'Path to the base directory containing input file subfolders'
+        ordinal: '1'
+        param: outputdir
+        paramtype: input
+        value: /data/tcga/gtdownload1
+      -
+        argument: --uuid
+        description: 'Unique identifier for the sample'
+        discretion: required
+        ordinal: '2'
+        param: uuid
+        paramtype: input
+        value: <SAMPLE>
+      -
+        argument: --keyfile
+        description: 'Path to the key file for access to CGHub'
+        discretion: required
+        ordinal: '3'
+        param: keyfile
+        paramtype: input
+        value: /data/annai-cghub.key
+      -
+        argument: --filesize
+        description: 'Size in bytes of the target download file'
+        ordinal: '4'
+        param: filesize
+        paramtype: input
+        value: <FILESIZE>
+        valuetype: Integer
+      -
+        argument: --filename
+        description: 'Name of *.bam file'
+        ordinal: '5'
+        param: filename
+        paramtype: input
+        value: <FILENAME>
+    type: downloader
+    version: 0.0.1
+description: 'Use GeneTorrent to download files from CGHub'
+name: Download
+number: '1'
+owner: admin
+project: VariantTcga
+username: admin

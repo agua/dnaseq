@@ -1,0 +1,54 @@
+---
+apps:
+  -
+    installdir: /agua/apps/dnaseq/0.0.1
+    location: bin/freebayes
+    name: freebayes
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --inputdir
+        description: 'Directory containing input BAM files'
+        param: inputdir
+        paramtype: input
+        value: /data/sra/merge/<SAMPLE>
+      -
+        argument: --outputdir
+        description: 'Directory for output VCF files'
+        param: outputdir
+        paramtype: input
+        value: /data/sra/freebayes/<SAMPLE>
+      -
+        argument: --reference
+        description: 'Location of reference genome fasta file'
+        param: reference
+        paramtype: input
+        value: /data/reference/genome.fa
+      -
+        argument: --target
+        description: 'Location of target BED file'
+        param: target
+        paramtype: input
+        value: /data/reference/target/SeqCap_EZ_Exome_v2-tiled.bed
+      -
+        argument: --uuid
+        description: 'Unique identifier for the sample'
+        param: uuid
+        paramtype: input
+        value: <SAMPLE>
+      -
+        argument: --version
+        description: 'Version of FreeBayes'
+        param: version
+        paramtype: input
+        value: v9.9.13
+    type: variant
+    version: 0.0.1
+description: 'Call variants with FreeBayes'
+name: FreeBayes
+number: '4'
+owner: admin
+project: VariantSra
+username: admin

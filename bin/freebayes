@@ -1,0 +1,108 @@
+#!/usr/bin/perl -w
+
+=doc
+
+=head2	freebayes
+
+PURPOSE
+
+    Call variants using FreeBayes from a BAM file against a
+	reference genome
+
+USAGE
+
+./freebayes.pl <--uuid String> \
+	<--inputdir String> \
+	<--outputdir String> \
+	<--reference String> \	
+	[--version String ] \
+	[--target String] \
+	[--options String] \
+
+uuid   		:   UUID of the sample
+inputdir	: 	Directory containing input BAM files
+outputdir	:	Directory for output BAM file
+reference	:	Location of FASTA genome reference file
+                (e.g., /data/reference/genome.fa)
+version		:	Version of FreeBayes
+target  	:	Location of BED file
+options		:	Additional options passed to FreeBayes
+
+EXAMPLE
+
+Call variants using FreeBayes
+
+./freebayes.pl \
+--inputdir /data/bwa/eaa56631-c802-47ff-8118-3ed40d10302b/ \
+--filename C500.TCGA-BT-A0S7-10A-01D-A10S-08.5.bam \
+--outputdir /data/freebayes \
+--reference /data/reference/genome.fa
+
+
+=cut
+
+#### EXTERNAL PACKAGES
+use Data::Dumper;
+use Getopt::Long;
+
+#### INTERNAL PACKAGES
+my $installdir;
+BEGIN {
+	$installdir	=	$ENV{'installdir'} || "/agua";
+    unshift(@INC, "$installdir/lib");
+}
+use FindBin qw($Bin);
+use lib "$Bin/../lib";
+use Conf::Yaml;
+use FreeBayes;
+
+#### GET OPTIONS
+my $uuid		=	undef;
+my $inputdir	=	undef;
+my $outputdir	=	undef;
+my $reference	=	undef;
+my $workdir	=	undef;
+my $version		=	undef;
+my $target		=	undef;
+my $options		=	undef;
+
+my $log			=	4;
+my $printlog	=	4;
+
+GetOptions (
+    'uuid=s'     	=> \$uuid,
+    'inputdir=s'   	=> \$inputdir,
+    'outputdir=s'   => \$outputdir,
+    'reference=s'   => \$reference,
+    'workdir=s'   	=> \$workdir,
+    'version=s'   	=> \$version,
+    'target=s'   	=> \$target,
+    'options=s'   	=> \$options,
+
+    'log=i'     	=> \$log,
+    'printlog=i'    => \$printlog,
+    'help'          => \$help
+) or die "No options specified. Try '--help'\n";
+usage() if defined $help;
+
+#### SET CONF
+my $configfile	=	"$installdir/conf/config.yaml";
+my $logfile		=	"/tmp/bwa.$$.log";
+my $conf = Conf::Yaml->new(
+    memory      =>  0,
+    inputfile   =>  $configfile,
+    backup      =>  1,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile
+);
+
+my $object	=	FreeBayes->new({
+	conf		=>	$conf,
+    log     	=>  $log,
+    printlog    =>  $printlog,
+    logfile     =>  $logfile	
+});
+
+$object->callVariants($uuid, $inputdir, $outputdir, $reference, $version, $target, $options, $workdir);
+

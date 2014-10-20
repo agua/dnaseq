@@ -1,0 +1,52 @@
+{
+   "project"		:	"AlignVariantSra",
+   "name"   		: 	"Merge",
+   "number" 		: 	5,   
+   "description" 	: 	"Marge multiple BAM files into a single, sorted BAM file",
+   "notes" 			: 	"Using PanCancer bwa_mem parameters",
+   "apps" : [
+      {
+         "name" : "merge",
+         "number": 1,
+         "type" : "converter",
+         "package" : "cu",
+         "installdir" : "/agua/apps/dnaseq/0.0.1",
+         "location" : "bin/merge",
+         "envarfile" : "/agua/apps/pancancer/0.0.1/envars.sh",
+         "description" : "Run (biobambam) bammerge to merge lane/readgroup-specific BAM files into a single BAM file",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "uuid",
+               "argument" : "--uuid",
+               "description" : "Unique identifier for the sample",
+               "value" : "<SAMPLE>"
+            },
+            {
+               "param" : "inputdir",
+               "argument" : "--inputdir",
+               "description" : "Location of directory containing input BAM files",
+               "value" : "/data/sra/bwa/<SAMPLE>"
+            },
+            {
+               "param" : "outputdir",
+               "argument" : "--outputdir",
+               "description" : "Print aligned BAM file to this output directory",
+               "value" : "/data/sra/merge/<SAMPLE>"
+            },
+            {
+               "param" : "workdir",
+              "argument" : "--workdir",
+               "description" : "Unique identifier for the sample",
+               "value" : "/mnt"
+            },
+            {
+               "param" : "filename",
+              "argument" : "--filename",
+               "description" : "Unique identifier for the sample",
+               "value" : "<SAMPLE>.bam"
+            }
+         ]
+      }
+   ]
+}

@@ -1,0 +1,217 @@
+---
+apps:
+  -
+    installdir: /agua
+    location: bin/sample/loadSamples.pl
+    name: loadSamples
+    number: '1'
+    package: agua
+    parameters:
+      -
+        argument: --project
+        category: project
+        description: 'Name of project using the samples'
+        param: project
+        paramtype: input
+        value: VariantTcga
+      -
+        argument: --sqlfile
+        category: sqlfile
+        description: "Location of sqlfile containing 'create table' command"
+        param: sqlfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/sql/tcgasample.sql
+      -
+        argument: --table
+        category: table
+        description: 'Name of the sample table'
+        param: table
+        paramtype: input
+        value: tcgasample
+      -
+        argument: --tsvfile
+        category: tsvfile
+        description: 'Location of tsvfile containing sample data'
+        param: tsvfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/tsv/tcgasample.tsv
+      -
+        argument: --username
+        category: username
+        description: 'Name of account owner'
+        param: username
+        paramtype: input
+        value: admin
+    type: loader
+    version: 0.0.1
+  -
+    installdir: /agua
+    location: bin/sample/loadSamples.pl
+    name: loadSamples
+    number: '2'
+    package: agua
+    parameters:
+      -
+        argument: --project
+        category: project
+        description: 'Name of project using the samples'
+        param: project
+        paramtype: input
+        value: AlignVariantTcga
+      -
+        argument: --sqlfile
+        category: sqlfile
+        description: "Location of sqlfile containing 'create table' command"
+        param: sqlfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/sql/tcgasample.sql
+      -
+        argument: --table
+        category: table
+        description: 'Name of the sample table'
+        param: table
+        paramtype: input
+        value: tcgasample
+      -
+        argument: --tsvfile
+        category: tsvfile
+        description: 'Location of tsvfile containing sample data'
+        param: tsvfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/tsv/tcgasample.tsv
+      -
+        argument: --username
+        category: username
+        description: 'Name of account owner'
+        param: username
+        paramtype: input
+        value: admin
+    type: loader
+    version: 0.0.1
+  -
+    installdir: /agua
+    location: bin/scripts/loadTable.pl
+    name: loadCluster
+    number: '3'
+    package: agua
+    parameters:
+      -
+        argument: --db
+        category: database
+        description: 'Name of database'
+        param: db
+        paramtype: input
+        value: agua
+      -
+        argument: --table
+        category: table
+        description: 'Name of table'
+        param: table
+        paramtype: input
+        value: cluster
+      -
+        argument: --tsvfile
+        category: file
+        description: 'Location of TSV file containing required fields'
+        param: tsvfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/tsv/cluster.tsv
+    type: loader
+    version: 0.0.1
+  -
+    installdir: /agua
+    location: bin/scripts/loadTable.pl
+    name: loadInstanceType
+    number: '4'
+    package: agua
+    parameters:
+      -
+        argument: --db
+        category: database
+        description: 'Name of database'
+        param: db
+        paramtype: input
+        value: agua
+      -
+        argument: --table
+        category: table
+        description: 'Name of table'
+        param: table
+        paramtype: input
+        value: instancetype
+      -
+        argument: --tsvfile
+        category: file
+        description: 'Location of TSV file containing required fields'
+        param: tsvfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/tsv/instancetype.tsv
+    type: loader
+    version: 0.0.1
+  -
+    installdir: /agua
+    location: bin/scripts/loadTable.pl
+    name: loadClusterWorkflow
+    number: '5'
+    package: agua
+    parameters:
+      -
+        argument: --db
+        category: database
+        description: 'Name of database'
+        param: db
+        paramtype: input
+        value: agua
+      -
+        argument: --table
+        category: table
+        description: 'Name of table'
+        param: table
+        paramtype: input
+        value: clusterworkflow
+      -
+        argument: --tsvfile
+        category: file
+        description: 'Location of TSV file containing required fields'
+        param: tsvfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/tsv/clusterworkflow.tsv
+    type: loader
+    version: 0.0.1
+  -
+    installdir: /agua
+    location: bin/scripts/loadTable.pl
+    name: loadClusterVars
+    number: '6'
+    package: agua
+    parameters:
+      -
+        argument: --db
+        category: database
+        description: 'Name of database'
+        param: db
+        paramtype: input
+        value: agua
+      -
+        argument: --table
+        category: table
+        description: 'Name of table'
+        param: table
+        paramtype: input
+        value: clustervars
+      -
+        argument: --tsvfile
+        category: file
+        description: 'Location of TSV file containing required fields'
+        param: tsvfile
+        paramtype: input
+        value: /agua/apps/dnaseq/<VERSION>/data/tcga/tsv/clustervars.tsv
+    type: loader
+    version: 0.0.1
+description: 'Load a list of sample ids'
+name: LoadSamples
+notes: 'List of CGHub bladder cancer tumor and normal sample UUIDs'
+number: '1'
+owner: admin
+project: LoadTcga
+username: admin

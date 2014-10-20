@@ -1,0 +1,46 @@
+{
+   "project"		:	"VariantSra",
+   "name"   		: 	"Upload",
+   "number" 		: 	8,
+   "description" 	: 	"Use gtupload to upload files from GNOS repo",
+   "apps" 			: 	[
+      {
+         "name" : "upload",
+         "number": 1,
+         "type" : "uploader",
+         "package" : "cu",
+         "location" : "bin/upload",
+         "installdir" : "/agua/apps/dnaseq/0.0.1",
+         "version" : "0.0.1",
+         "description" : "Run gtupload",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "xmldir",
+               "argument" : "--xmldir",
+               "description" : "Path to the directory containing *.xml files",
+			   "value" : "/data/sra/freebayes"
+            },
+            {
+               "param" : "bamdir",
+               "argument" : "--bamdir",
+               "description" : "Path to the directory containing *.bam files",
+			   "value" : "/data/sra/freebayes"
+            },
+            {
+               "param" : "uuid",
+               "argument" : "--uuid",
+               "description" : "Unique identifier for the sample",
+			   "value" : "<SAMPLE>"
+            },
+            {
+               "param" : "keyfile",
+               "argument" : "--keyfile",
+               "description" : "Location of private key for upload access to GNOS repository",
+			   "value" : "/data/sra/gnos.key"
+            }
+         ]
+      }
+   ]
+}
+

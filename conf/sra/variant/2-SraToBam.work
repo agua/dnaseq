@@ -1,0 +1,36 @@
+---
+apps:
+  -
+    installdir: /agua/apps/dnaseq/0.0.1
+    location: bin/sratobam
+    name: sraToBam
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --inputfile
+        description: 'Input SRA file location'
+        param: inputfile
+        paramtype: input
+        value: /data/sra/aspera/<SAMPLE>/<SAMPLE>.sra
+      -
+        argument: --outputfile
+        description: 'Output BAM file location'
+        param: outputfile
+        paramtype: input
+        value: /data/sra/aspera/<SAMPLE>/<SAMPLE>.bam
+      -
+        argument: --reference
+        description: 'Reference sequence file location'
+        param: reference
+        paramtype: input
+        value: /data/reference/genome.fa
+    type: converter
+description: 'Convert SRA to BAM'
+name: SraToBam
+notes: "Uses biobambam's fastqtobam"
+number: '2'
+owner: admin
+project: VariantSra
+username: admin

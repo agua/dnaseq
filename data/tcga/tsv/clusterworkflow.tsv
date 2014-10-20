@@ -1,0 +1,9 @@
+admin	RunCluster	VariantTcga	Download	none
+admin	RunCluster	VariantTcga	IndexBam	none
+admin	RunCluster	VariantTcga	FreeBayes	none
+admin	RunCluster	AlignVariantTcga	Download	none
+admin	RunCluster	AlignVariantTcga	LaneFastq	none
+admin	RunCluster	AlignVariantTcga	Bwa	none
+admin	RunCluster	AlignVariantTcga	Merge	none
+admin	RunCluster	AlignVariantTcga	IndexBam	none
+admin	RunCluster	AlignVariantTcga	FreeBayes	none

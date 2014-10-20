@@ -1,0 +1,39 @@
+{
+   "project"		:	"AlignVariantSra",
+   "name"   		: 	"SraToBam",
+   "number"	 		:	2,   
+   "description" 	: 	"Convert SRA to BAM",
+   "notes" 			: 	"Uses biobambam's fastqtobam",
+   "apps" : [
+      {
+         "name" : "sraToBam",
+         "number": 1,
+         "type" : "converter",
+         "package" : "cu",
+         "installdir" : "/agua/apps/dnaseq/0.0.1",
+         "location" : "bin/sratobam",
+         "description" : "Convert an SRA file to a BAM file",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" 			: 	"reference",
+               "argument" 		: 	"--reference",
+               "description" 	: 	"Reference sequence file location",
+               "value" 			: 	"/data/reference/genome.fa"
+            },
+            {
+               "param" 			: 	"inputfile",
+               "argument" 		: 	"--inputfile",
+               "description" 	: 	"Input SRA file location",
+               "value" 			: 	"/data/sra/aspera/<SAMPLE>/<SAMPLE>.sra"
+            },
+            {
+               "param" 			: 	"outputfile",
+               "argument" 		: 	"--outputfile",
+               "description" 	: 	"Output BAM file location",
+               "value" 			: 	"/data/sra/aspera/<SAMPLE>/<SAMPLE>.bam"
+            }
+         ]
+      }
+   ]
+}

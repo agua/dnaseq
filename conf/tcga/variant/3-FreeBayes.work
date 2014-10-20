@@ -1,0 +1,48 @@
+---
+apps:
+  -
+    installdir: /agua/apps/dnaseq/0.0.1
+    location: bin/freebayes
+    name: freebayes
+    number: '1'
+    ordinal: 1
+    package: cu
+    parameters:
+      -
+        argument: --inputdir
+        description: 'Directory containing input BAM files'
+        param: inputdir
+        paramtype: input
+        value: /data/tcga/gtdownload1/<SAMPLE>
+      -
+        argument: --outputdir
+        description: 'Directory for output VCF files'
+        param: outputdir
+        paramtype: input
+        value: /data/tcga/freebayes1/<SAMPLE>
+      -
+        argument: --reference
+        description: 'Location of reference genome fasta file'
+        param: reference
+        paramtype: input
+        value: /data/reference/genome.fa
+      -
+        argument: --uuid
+        description: 'Unique identifier for the sample'
+        param: uuid
+        paramtype: input
+        value: <SAMPLE>
+      -
+        argument: --version
+        description: 'Version of FreeBayes'
+        param: version
+        paramtype: input
+        value: v0.9.9.2
+    type: variant
+    version: 0.0.1
+description: 'Call variants with FreeBayes'
+name: FreeBayes
+number: '3'
+owner: admin
+project: VariantTcga
+username: admin

@@ -1,0 +1,51 @@
+{
+   "project"		:	"RunTCGA",
+   "name"   		: 	"FreeBayes",
+   "number" 		: 	3,
+   "description" 	: 	"Call variants with FreeBayes",
+   "apps" 			: 	[
+      {
+         "name" 		: 	"freebayes",
+         "number"		: 	1,
+         "type" 		: 	"variant",
+         "package" 		: 	"cu",
+         "installdir" 	: 	"/agua/apps/dnaseq/0.0.1",
+         "location" 	: 	"bin/freebayes.pl",
+         "version" 		: 	"0.0.1",
+         "description" 	: 	"Run freebayes variant caller on aligned BAM files",
+         "linkurl" 		: 	"http://www.github.com/annaisystems/cu",
+         "parameters" 	: 	[
+            {
+               "param" : "uuid",
+               "argument" : "--uuid",
+               "description" : "Unique identifier for the sample",
+               "value" : "<SAMPLE>"
+            },
+            {
+               "param" : "inputdir",
+               "argument" : "--inputdir",
+               "description" : "Directory containing input BAM files",
+               "value" : "/data/tcga/gtdownload1/<SAMPLE>"
+            },
+            {
+               "param" : "outputdir",
+               "argument" : "--outputdir",
+               "description" : "Directory for output VCF files",
+               "value" : "/data/tcga/freebayes1/<SAMPLE>"
+            },
+            {
+               "param" : "version",
+               "argument" : "--version",
+               "description" : "Version of FreeBayes",
+               "value" : "v0.9.9.2"
+            },
+            {
+               "param" : "reference",
+               "argument" : "--reference",
+               "description" : "Location of reference genome fasta file",
+               "value" : "/data/reference/genome.fa"
+            }
+         ]
+      }
+   ]
+}

@@ -1,0 +1,62 @@
+{
+   "project"		:	"VariantTcga",
+   "name"   		: 	"Download",
+   "number" 		: 	1,
+   "description" 	: 	"Use GeneTorrent to download files from CGHub",
+   "apps" 			: 	[
+      {
+         "name" 		: 	"download",
+         "number"		: 	1,
+         "type" 		: 	"downloader",
+         "package" 		: 	"cu",
+         "location" 	: 	"bin/download",
+         "installdir" 	:	 "/agua/apps/dnaseq/0.0.1",
+         "version" 		: 	"0.0.1",
+         "description" 	: 	"Run gtdownload",
+         "linkurl" 		: 	"http://www.github.com/annaisystems/cu",
+         "parameters" 	: 	[
+            {
+               "ordinal" 		: 	1,
+               "param" 			: 	"outputdir",
+               "argument" 		: 	"--outputdir",
+               "description" 	: 	"Path to the base directory containing input file subfolders",
+			   "value" 			: 	"/data/tcga/gtdownload1"
+            },
+            {
+               "ordinal" 		: 	2,
+               "param" 			: 	"uuid",
+               "argument" 		: 	"--uuid",
+               "description" 	: 	"Unique identifier for the sample",
+               "discretion" 	: 	"required",
+			   "value" 			: 	"<SAMPLE>"
+            },
+            {
+               "ordinal" 		: 	3,
+               "param" 			: 	"keyfile",
+               "argument" 		: 	"--keyfile",
+               "description" 	: 	"Path to the key file for access to CGHub",
+               "discretion" 	: 	"required",
+			   "value" 			: 	"/data/annai-cghub.key"
+            }
+			,
+            {
+               "ordinal" 		: 	4,
+               "param" 			: 	"filesize",
+               "argument" 		: 	"--filesize",
+               "description" 	: 	"Size in bytes of the target download file",
+               "valuetype" 		: 	"Integer",
+			   "value" 			: 	"<FILESIZE>"
+            }
+			,
+            {
+               "ordinal" 		: 	5,
+               "param" 			: 	"filename",
+               "argument" 		: 	"--filename",
+               "description" 	: 	"Name of *.bam file",
+			   "value" 			: 	"<FILENAME>"
+            }
+         ]
+      }
+   ]
+}
+

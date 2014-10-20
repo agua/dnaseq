@@ -1,0 +1,71 @@
+{
+   "project"		:	"AlignVariantSra",
+   "name"   		: 	"Bwa",
+   "number" 		: 	4,   
+   "description" 	: 	"Alignment of BAM files",
+   "notes" 			: 	"PanCancer bwa_mem parameters",
+   "apps" : [
+      {
+         "name" : "bwa",
+         "number": 1,
+         "type" : "aligner",
+         "package" : "cu",
+         "installdir" : "/agua/apps/dnaseq/0.0.1",
+         "location" : "bin/bwa",
+         "envarfile" : "/agua/apps/dnaseq/0.0.1/data/sra/sh/envars.sh",
+         "description" : "Run bwa_mem.pl alignment on BAM file",
+         "linkurl" : "http://www.github.com/annaisystems/cu",
+         "parameters" : [
+            {
+               "param" : "inputdir",
+               "argument" : "--inputdir",
+               "description" : "Location of directory containing input *.bam files",
+               "value" : "/data/sra/lanefastq/<SAMPLE>"
+            },
+            {
+               "param" : "inputsuffix",
+               "argument" : "--inputsuffix",
+               "description" : "Input file suffix (e.g., .fastq.gz, .fq.gz, or .bam)",
+               "value" : ".fq.gz"
+            },
+            {
+               "param" : "outputdir",
+               "argument" : "--outputdir",
+               "description" : "Print output *.bam file to this output directory",
+               "value" : "/data/sra/bwa/<SAMPLE>"
+            },
+            {
+               "param" : "filename",
+               "argument" : "--filename",
+               "description" : "Name of output *.bam file",
+               "value" : "<SAMPLE>.bam"
+            },
+            {
+               "param" : "version",
+               "argument" : "--version",
+               "description" : "Version of PanCancer package",
+               "value" : "v1.0.4"
+            },
+            {
+               "param" : "reference",
+               "argument" : "--reference",
+               "description" : "Stubbed location of bwa genome index files (e.g., /reference/genome.fa.gz)",
+               "value" : "/data/reference/genome.fa.gz"
+            },
+            {
+               "param" 			: "threads",
+               "argument" 		: "--threads",
+               "description" 	: "Number of CPUs to be used",
+               "value" 			: 	8
+            },
+            {
+               "param" : "batchsize",
+               "argument" : "--batchsize",
+               "description" : "Number of *.fq.gz files to be processed at one time",
+			   "valuetype" : "Integer",
+               "value" : "20"
+            }
+         ]
+      }
+   ]
+}

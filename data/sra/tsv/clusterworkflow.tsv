@@ -1,0 +1,11 @@
+admin	RunCluster	VariantSra	Aspera	none
+admin	RunCluster	VariantSra	SraToBam	none
+admin	RunCluster	VariantSra	IndexBam	none
+admin	RunCluster	VariantSra	FreeBayes	none
+admin	RunCluster	AlignVariantSra	Aspera	none
+admin	RunCluster	AlignVariantSra	SraToBam	none
+admin	RunCluster	AlignVariantSra	LaneFastq	none
+admin	RunCluster	AlignVariantSra	Bwa	none
+admin	RunCluster	AlignVariantSra	Merge	none
+admin	RunCluster	AlignVariantSra	IndexBam	none
+admin	RunCluster	AlignVariantSra	FreeBayes	none
